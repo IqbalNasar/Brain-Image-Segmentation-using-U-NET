@@ -166,20 +166,27 @@ val_acc = history.history['val_accuracy']
 loss = history.history['loss']
 val_loss = history.history['val_loss']
 
-epochs_range = range(epochs)
+test_img_number = np.random.randint(0, len(valid_x))
+x= valid_x[test_img_number]
+test_img_input  = np.expand_dims(x, 0)
+prediction = np.squeeze(model.predict(test_img_input))
 
-plt.figure(figsize=(8, 8))
-plt.subplot(1, 2, 1)
-plt.plot(epochs_range, acc, label='Training Accuracy')
-plt.plot(epochs_range, val_acc, label='Validation Accuracy')
-plt.legend(loc='lower right')
-plt.title('Training and Validation Accuracy')
-plt.subplot(1, 2, 2)
-plt.plot(epochs_range, loss, label='Training Loss')
-plt.plot(epochs_range, val_loss, label='Validation Loss')
-plt.legend(loc='upper right')
-plt.title('Training and Validation Loss')
+print('The test acc is:',test_acc)
 
+
+plt.figure(figsize=(16, 16))
+ax = plt.subplot(1, 3, 1)
+imshow(x)
+plt.title('Actual Test Image')
+plt.axis("off")
+ax = plt.subplot(1, 3, 2)
+imshow(valid_y[test_img_number])
+plt.title('Actual Mask')
+plt.axis("off")
+ax = plt.subplot(1, 3, 3)
+imshow(prediction)
+plt.title('Predicted segmentation')
+plt.axis("off")
 plt.show()
 
 for x, y in (valid_x, valid_y):
